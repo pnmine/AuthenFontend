@@ -77,7 +77,7 @@ export default {
         this.email,
         this.phone
       )
-      
+
     },
     toggle() {
       this.isLogin = !this.isLogin
@@ -88,7 +88,7 @@ export default {
 <style scoped>
 .wrapper {
   border: 1px solid white;
-  min-width: 500px;
+  min-width: 600px;
   min-height: 750px;
   color: white;
   background: transparent;
@@ -140,7 +140,7 @@ form {
 }
 .form__input-box input {
   text-align: left;
-  width: 80%;
+  width: 75%;
   height: 100%;
   border: none;
   outline: none;
@@ -154,7 +154,7 @@ form {
   border: 1px solid var(--indigo-400);
 }
 .form__input-box label {
-  left: 13.5%;
+  left: 15.1%;
   top: 25%;
   margin-left: 2rem;
   position: absolute;
@@ -181,7 +181,7 @@ form {
 }
 
 .form__submit-button button {
-  width: 80%;
+  width: 75%;
   height: 50px;
   border: none;
   outline: none;
@@ -215,5 +215,13 @@ form {
   color: var(--indigo-200);
   text-decoration: underline;
   cursor: pointer;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .wrapper {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>

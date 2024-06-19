@@ -1,5 +1,5 @@
 <template>
-  <div class="login__container">
+  <div class="auth__container">
     <auth-form></auth-form>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
 }
 </script>
 <style scoped>
-.login__container {
+.auth__container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,4 +24,5 @@ export default {
   background-repeat: no-repeat;
   background-size: cover;
 }
+
 </style>
