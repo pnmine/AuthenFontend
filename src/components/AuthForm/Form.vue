@@ -21,22 +21,22 @@
         </div>
         <div class="form__input-box" v-show="!isLogin">
           <box-icon name="id-card" color="white"></box-icon>
-          <input type="text" v-model="firstname" required />
+          <input type="text" v-model="firstname" :required="!isLogin" />
           <label>Firstname</label>
         </div>
         <div class="form__input-box" v-show="!isLogin">
           <box-icon name="id-card" color="white"></box-icon>
-          <input type="text" v-model="lastname" required />
+          <input type="text" v-model="lastname" :required="!isLogin" />
           <label>Lastname</label>
         </div>
         <div class="form__input-box" v-show="!isLogin">
           <box-icon name="envelope" type="solid" color="white"></box-icon>
-          <input type="email" v-model="email" required />
+          <input type="email" v-model="email" :required="!isLogin" />
           <label>Email</label>
         </div>
         <div class="form__input-box" v-show="!isLogin">
           <box-icon name="phone" type="solid" color="white"></box-icon>
-          <input type="text" v-model="phone" pattern="^\d{10}$" required />
+          <input type="text" v-model="phone" pattern="^\d{10}$" :required="!isLogin" />
           <label>Phone</label>
         </div>
         <div class="form__submit-button">
@@ -44,16 +44,15 @@
           <button v-else type="submit">Register</button>
         </div>
         <div class="form__auth-toggle-link">
-          <p v-if="isLogin">
-            Don't have an account? <span @click="toggle">Register</span>
-          </p>
-          <p v-else>Already have an account? <span @click="toggle">Login</span> </p>
+          <p v-if="isLogin">Don't have an account? <span @click="toggle">Register</span></p>
+          <p v-else>Already have an account? <span @click="toggle">Login</span></p>
         </div>
       </form>
     </div>
   </slot>
 </template>
 <script>
+import axios from '../../api.js'
 export default {
   name: 'LoginRegisterForm',
   data() {
@@ -68,19 +67,68 @@ export default {
     }
   },
   methods: {
-    save() {
-      console.log(
-        this.username,
-        this.password,
-        this.firstname,
-        this.lastname,
-        this.email,
-        this.phone
-      )
-
+    resetForm() {
+      this.username = ''
+      this.password = ''
+      this.firstname = ''
+      this.lastname = ''
+      this.email = ''
+      this.phone = ''
+    },
+    async save() {
+      if (!this.isLogin) {
+        console.log('register')
+        var registerData = {
+          username: this.username,
+          password: this.password,
+          firstname: this.firstname,
+          lastname: this.lastname,
+          email: this.email,
+          phone: this.phone
+        }
+        await axios
+          .post('/auth/register', registerData)
+          .then((res) => {
+            console.log(res.data)
+            if (res.status == 200) {
+              alert('Register successful')
+              this.resetForm()
+              this.toggle()
+              // this.$router.go(0)
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+            if (error.response.status == 400) {
+              this.username = ''
+              alert(error.response.data.message + 'Please try again')
+            }
+          })
+      } else {
+        console.log('login')
+        var loginData = {
+          username: this.username,
+          password: this.password
+        }
+        await axios
+          .post('/auth/login', loginData)
+          .then((res) => {
+            console.log(res.data)
+            if (res.status == 200) {
+              this.$router.go(0)
+              alert('Login successful')
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+            this.password = ''
+            alert(error.response.data.message + 'Please try again')
+          })
+      }
     },
     toggle() {
       this.isLogin = !this.isLogin
+      // this.resetForm()
     }
   }
 }
@@ -91,7 +139,7 @@ export default {
   min-width: 600px;
   min-height: 750px;
   color: white;
-  background: transparent;
+  background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(10px);
   border-radius: 0.5rem;
 }
@@ -204,7 +252,7 @@ form {
 }
 
 .form__submit-button button:active {
-  transform: scale(0.90);
+  transform: scale(0.9);
 }
 
 .form__auth-toggle-link p {
