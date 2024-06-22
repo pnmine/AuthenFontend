@@ -115,8 +115,10 @@ export default {
           .then((res) => {
             console.log(res.data)
             if (res.status == 200) {
-              this.$router.go(0)
-              alert('Login successful')
+              this.$userStore.login(res.data.data.token, res.data.data.tokenExpired, res.data.data.userId)
+              //alert('Login successful')
+              this.$router.push('/')
+              //this.$router.go(0)
             }
           })
           .catch((error) => {

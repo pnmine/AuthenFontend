@@ -1,10 +1,7 @@
 <template>
   <header>
     <nav>
-      <h1><router-link to="/">ToDoList</router-link></h1>
-      <ul>
-        <li><router-link to="/category">All Category</router-link></li>
-      </ul>
+      <h1><router-link to="/">Home</router-link></h1>
     </nav>
   </header>
 </template>
@@ -26,14 +23,6 @@ header a {
   padding: 0.75rem 1.5rem;
   border: 1px solid transparent;
 }
-
-a:active,
-a:hover,
-a.router-link-active {
-  border: 1px solid var(--cyan-300);
-  border-radius: 12px;
-}
-
 h1 {
   margin: 0;
 }
